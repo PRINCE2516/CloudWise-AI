@@ -143,7 +143,10 @@ models = {
     "Linear Regression": LinearRegression(),
 
     "Random Forest": RandomForestRegressor(
-        n_estimators=200,
+        n_estimators=50,
+        max_depth=12,
+        min_samples_leaf=2,
+        max_features=0.8,
         random_state=42,
         n_jobs=-1
     )
@@ -200,22 +203,30 @@ best_pipeline = trained_pipelines["Random Forest"]
 
 joblib.dump(
     best_pipeline.named_steps["model"],
-    MODEL_PATH
+    MODEL_PATH,
+    compress=3
 )
 
 joblib.dump(
     best_pipeline.named_steps["preprocessor"],
-    PREPROCESSOR_PATH
+    PREPROCESSOR_PATH,
+    compress=3
 )
 
 
-# 12. Training summary
+# 12. Display saved model sizes
+model_size = os.path.getsize(MODEL_PATH) / (1024 * 1024)
+preprocessor_size = os.path.getsize(PREPROCESSOR_PATH) / (1024 * 1024)
+
 print("\n--------------------------------")
 print("MODEL TRAINING COMPLETED")
 print("--------------------------------")
 
 print("Model saved to:", MODEL_PATH)
 print("Preprocessor saved to:", PREPROCESSOR_PATH)
+
+print(f"Model size: {model_size:.2f} MB")
+print(f"Preprocessor size: {preprocessor_size:.2f} MB")
 
 print("\nFinal model: Random Forest")
 print("Target: Hourly_Cost_USD")
