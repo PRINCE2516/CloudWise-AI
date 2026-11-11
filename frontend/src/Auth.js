@@ -10,7 +10,7 @@ import {
   Alert,
 } from "@mui/material";
 
-const AUTH_API_URL = "http://localhost:8000";
+const AUTH_API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const fieldStyle = {
   "& .MuiInputLabel-root": {
